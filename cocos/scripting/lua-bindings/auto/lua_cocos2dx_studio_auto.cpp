@@ -4,6 +4,9 @@
 #include "scripting/lua-bindings/manual/cocostudio/lua-cocos-studio-conversions.h"
 #include "scripting/lua-bindings/manual/tolua_fix.h"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
+#include "CCLuaValue.h"
+#include "CCLuaEngine.h"
+
 
 int lua_cocos2dx_studio_ActionFrame_getAction(lua_State* tolua_S)
 {
@@ -21864,21 +21867,17 @@ int lua_cocos2dx_studio_ActionTimeline_setLastFrameCallFunc(lua_State* tolua_S)
     argc = lua_gettop(tolua_S)-1;
     if (argc == 1) 
     {
-        std::function<void ()> arg0;
-
-        do {
-			// Lambda binding for lua is not supported.
-			assert(false);
-		} while(0)
-		;
-        if(!ok)
+#if COCOS2D_DEBUG >= 1
+        if (!toluafix_isfunction(tolua_S, 2, "LUA_FUNCTION", 0, &tolua_err))
         {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_studio_ActionTimeline_setLastFrameCallFunc'", nullptr);
-            return 0;
+            goto tolua_lerror;
         }
-        cobj->setLastFrameCallFunc(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
+#endif
+        LUA_FUNCTION handler = (toluafix_ref_function(tolua_S, 2, 0));
+        cobj->setLastFrameCallFunc([=](){
+            LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 0);
+        });
+        return 0;
     }
     luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "ccs.ActionTimeline:setLastFrameCallFunc",argc, 1);
     return 0;
