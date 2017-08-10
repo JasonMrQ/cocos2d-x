@@ -636,6 +636,8 @@ SIOClientImpl* SIOClientImpl::create(const Uri& uri, const std::string& caFilePa
 
     if (s && s->init())
     {
+        //add Jason
+        s->autorelease();
         return s;
     }
 

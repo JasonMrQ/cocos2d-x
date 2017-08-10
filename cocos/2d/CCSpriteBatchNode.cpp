@@ -71,6 +71,22 @@ SpriteBatchNode* SpriteBatchNode::create(const std::string& fileImage, ssize_t c
     return nullptr;
 }
 
+SpriteBatchNode* SpriteBatchNode::createWithSpriteFrame(cocos2d::SpriteFrame *sf,Rect rect,ssize_t capacity/* = DEFAULT_CAPACITY*/)
+{
+    SpriteBatchNode *batchNode = new (std::nothrow) SpriteBatchNode();
+    if(batchNode)
+    {
+//        Sprite* texture =  Sprite::createWithTexture( sf->getTexture(), rect);
+//        batchNode->initWithTexture(texture->getTexture(),0);
+//        batchNode->setTexture(texture->getTexture());
+//        batchNode->autorelease();
+        return batchNode;
+    }
+    
+    delete batchNode;
+    return nullptr;
+}
+
 /*
 * init with Texture2D
 */

@@ -546,7 +546,10 @@ namespace ui {
          * @lua NA
          */
         void touchDownAction(Ref *sender, TouchEventType controlEvent);
-            
+        
+        //add by Jason
+        void openKeyboard();
+        
     protected:
         virtual void adaptRenderers() override;
 

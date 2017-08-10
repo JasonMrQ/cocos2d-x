@@ -161,6 +161,22 @@ public:
 
     /** Gets current running Scene. Director can only run one Scene at a time. */
     Scene* getRunningScene() { return _runningScene; }
+    //add by Jason
+    inline Scene* getNextScene() {
+        ssize_t c = _scenesStack.size();
+        if(c > 0)
+            return _scenesStack.at(c - 1);
+        else
+            return _nextScene;
+    }
+    //
+    inline Scene* getNext2Scene() {
+        ssize_t c = _scenesStack.size();
+        if(c > 1)
+            return _scenesStack.at(c - 2);
+        else
+            return nullptr;
+    }
 
     /** Gets the FPS value. */
     float getAnimationInterval() { return _animationInterval; }
@@ -299,7 +315,19 @@ public:
      * ONLY call it if there is a running scene.
      */
     void popScene();
+    
+    //弹出当前屏的数据
+    void popSceneData();
 
+    //add by Jason
+    //获取存在的SCENE 数量
+    ssize_t getSceneStackSize();
+    
+    /*
+        释放掉level以下的Scene,解决内存占用
+    */
+    void popUnusedScenesByStackLevel(int level);
+    //end  by Jason
     /** 
      * Pops out all scenes from the stack until the root scene in the queue.
      * This scene will replace the running one.

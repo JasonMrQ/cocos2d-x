@@ -919,6 +919,16 @@ void Director::pushScene(Scene *scene)
     _nextScene = scene;
 }
 
+void Director::popSceneData(void)
+{
+    _scenesStack.popBack();
+}
+
+ssize_t Director::getSceneStackSize(void)
+{
+    return _scenesStack.size();
+}
+
 void Director::popScene(void)
 {
     CCASSERT(_runningScene != nullptr, "running scene should not null");
@@ -1005,6 +1015,30 @@ void Director::popToSceneStackLevel(int level)
 
     // cleanup running scene
     _sendCleanupToScene = true;
+}
+
+//add by Jason
+void Director::popUnusedScenesByStackLevel(int level)
+{
+    CCASSERT(_runningScene != nullptr, "A running Scene is needed");
+    ssize_t c = _scenesStack.size();
+    
+    // level 0? -> end
+    if (level == 0)
+    {
+        end();
+        return;
+    }
+    // current level or lower -> nothing
+    if (level >= c)
+        return;
+
+    for(Vector<Scene*>::const_iterator citer = _scenesStack.begin();citer!=_scenesStack.end() - level ;citer++)
+    {
+        (*citer)->cleanup();
+    }
+    _scenesStack.erase(_scenesStack.begin(),_scenesStack.end() - level);
+    printf("hahha _scenesStack.size():%d",(int)_scenesStack.size());
 }
 
 void Director::end()

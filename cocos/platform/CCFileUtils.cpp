@@ -1540,4 +1540,118 @@ void FileUtils::valueVectorCompact(ValueVector& /*valueVector*/)
 {
 }
 
+#define MAX_PATH 2056
+FileUtils::Status FileUtils::UnpackZipToDir(const char * dirName, const char * zipFileName,std::function<void(int num,int maxNum)> callback)
+{
+    bool slashFlag = true;
+    int m_nCurrUnzipNum = 0;
+    int m_nZipFileNum = 1;
+    unzFile unZipDir = unzOpen(zipFileName);
+    Status errcode = Status::OK;
+    if (unZipDir == NULL)
+    {
+        return Status::NotExists;
+    }
+    if(!createDirectory(dirName))		//创建要解压到的目标文件夹
+    {
+        return Status::NotExists;
+    }
+    unz_global_info global_info;
+    int ret = UNZ_ERRNO;
+    ret= unzGetGlobalInfo(unZipDir, &global_info);
+    if(ret== UNZ_OK)
+    {
+        m_nCurrUnzipNum = 1;
+        m_nZipFileNum = global_info.number_entry + 1;
+        callback(m_nCurrUnzipNum,m_nZipFileNum);
+    }
+    int nResult = unzGoToFirstFile(unZipDir);
+    unsigned char * buf;
+    while(nResult == UNZ_OK)
+    {
+        char szCurrentFile[MAX_PATH];
+        unz_file_info unZipFileInfo;
+        unzGetCurrentFileInfo(unZipDir, &unZipFileInfo, szCurrentFile, sizeof(szCurrentFile), NULL, 0, NULL, 0);
+        
+        std::string filePath = std::string(szCurrentFile);
+        std::string fileName;
+        char fileRoot[MAX_PATH];
+        std::string::size_type last_slash_pos = filePath.find_last_of('/');
+        if (last_slash_pos != std::string::npos )
+        {
+            strcpy(fileRoot,dirName);
+            std::string filetemp = filePath.substr(0,last_slash_pos);
+            strcat(fileRoot,filetemp.c_str());
+            std::string::size_type flag_pos = filetemp.find_last_of('/');//查找/   有的话就是多级目录
+            bool isMultiDir = false;
+            if (flag_pos == std::string::npos)
+            {
+                isMultiDir = createDirectory(fileRoot);
+            }
+            else
+            {
+                //                isMultiDir = createMultiLevelDir(fileRoot);
+                isMultiDir = createDirectory(fileRoot);
+            }
+            if(!isMultiDir)
+            {
+                errcode = Status::NotExists;
+                break;
+            }
+            
+            if (last_slash_pos == filePath.length()-1)
+            {
+                nResult = unzGoToNextFile(unZipDir);
+                continue;//文件夹项
+            }
+        }
+        uLong size = unZipFileInfo.uncompressed_size;
+        buf = new unsigned char[size];
+        if (!buf)
+        {
+            errcode = Status::TooLarge;
+            break;
+        }
+        memset(buf, 0, size*sizeof(char));
+        int nReadLength = 0;
+        if (UNZ_OK == unzOpenCurrentFile(unZipDir))
+        {
+            nReadLength = unzReadCurrentFile(unZipDir, buf , size);
+            unzCloseCurrentFile(unZipDir);
+        }
+        else
+        {
+            delete buf;
+            unzClose(unZipDir);
+            return Status::ReadFailed;
+        }
+        FILE * pFile;
+        char filePos[MAX_PATH];
+        strcpy(filePos,dirName);
+        strcat(filePos,filePath.c_str());
+        pFile = fopen(filePos, "wb");
+        if (pFile)
+        {
+            fwrite(buf,nReadLength,1,pFile);
+            fclose(pFile);
+            delete buf;
+        }
+        else
+        {
+            delete buf;
+            errcode = Status::OpenFailed;
+            break;
+        }
+        m_nCurrUnzipNum++;
+        if ( m_nCurrUnzipNum != m_nZipFileNum )
+            callback(m_nCurrUnzipNum,m_nZipFileNum);
+        
+        nResult = unzGoToNextFile(unZipDir);
+    }
+    m_nCurrUnzipNum = m_nZipFileNum;
+    unzClose(unZipDir);
+    callback(m_nCurrUnzipNum,m_nZipFileNum);
+    return errcode;
+}
+
 NS_CC_END

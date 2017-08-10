@@ -50,7 +50,13 @@ EditBox::~EditBox(void)
 #endif
 }
 
-
+//add by Jason
+//打开虚拟键盘
+void EditBox::openKeyboard()
+{
+    _editBoxImpl->openKeyboard();
+}
+    
 void EditBox::touchDownAction(Ref* /*sender*/, TouchEventType controlEvent)
 {
     if (controlEvent == Widget::TouchEventType::ENDED) {

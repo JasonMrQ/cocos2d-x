@@ -1779,6 +1779,9 @@ void RichText::formarRenderers()
                 nextPosX += iter->getContentSize().width;
             }
         }
+        // add by Jason
+        this->setContentSize(Size(_contentSize.width, newContentSizeHeight));
+        //add by Jason end
         delete [] maxHeights;
     }
     
@@ -1796,7 +1799,11 @@ void RichText::formarRenderers()
     }
     else
     {
-        this->setContentSize(_customSize);
+        // add by Jason
+        // this->setContentSize(_customSize);
+        Size s = getVirtualRendererSize();
+        this->setContentSize(s);
+        //add by Jason end
     }
     updateContentSizeWithTextureSize(_contentSize);
 }

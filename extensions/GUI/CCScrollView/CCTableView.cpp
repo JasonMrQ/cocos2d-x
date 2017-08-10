@@ -271,6 +271,8 @@ TableViewCell *TableView::dequeueCell()
 
 void TableView::_addCellIfNecessary(TableViewCell * cell)
 {
+    if (cell == nullptr)
+        return;
     if (cell->getParent() != this->getContainer())
     {
         this->getContainer()->addChild(cell);
@@ -432,6 +434,8 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
 
 void TableView::_setIndexForCell(ssize_t index, TableViewCell *cell)
 {
+    if (cell == nullptr)
+        return;
     cell->setAnchorPoint(Vec2(0.0f, 0.0f));
     cell->setPosition(this->_offsetFromIndex(index));
     cell->setIdx(index);

@@ -291,7 +291,8 @@ public:
      */
     virtual unsigned char* getFileDataFromZip(const std::string& zipFilePath, const std::string& filename, ssize_t *size);
 
-
+    Status UnpackZipToDir(const char * dirName, const char * zipFileName, std::function<void(int num,int maxNum)> callback);
+    
     /** Returns the fullpath for a given filename.
 
      First it will try to get a new filename from the "filenameLookup" dictionary.

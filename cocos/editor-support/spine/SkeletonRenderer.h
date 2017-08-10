@@ -77,6 +77,9 @@ public:
 	/* Returns 0 if the slot was not found. */
 	spSlot* findSlot (const std::string& slotName) const;
 	
+    //add Jason
+    std::vector<std::string> getPngsPath() const;
+    
 	/* Sets the skin used to look up attachments not found in the SkeletonData defaultSkin. Attachments from the new skin are
 	 * attached if the corresponding attachment from the old skin was attached. Returns false if the skin was not found.
 	 * @param skin May be empty string ("") for no skin.*/

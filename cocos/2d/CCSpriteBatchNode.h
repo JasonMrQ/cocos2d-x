@@ -85,8 +85,12 @@ public:
      */
     static SpriteBatchNode* create(const std::string& fileImage, ssize_t capacity = DEFAULT_CAPACITY);
 
+    /*
+     add by Jason create with SpriteFrame from plist textures
+     */
+    static SpriteBatchNode* createWithSpriteFrame(cocos2d::SpriteFrame *sf, Rect rect,ssize_t capacity = DEFAULT_CAPACITY);
 
-    /** Returns the TextureAtlas object. 
+    /** Returns the TextureAtlas object.
      *
      * @return The TextureAtlas object.
      */

@@ -501,6 +501,9 @@ void BMFontConfiguration::parseInfoArguments(const char* line)
     // info face="Cracked" size=36 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1
     //////////////////////////////////////////////////////////////////////////
     sscanf(strstr(line, "size=") + 5, "%d", &_fontSize);
+    //add by Jason
+    _fontSize = 38;
+    //end by Jason
     // padding
     sscanf(strstr(line,"padding=") + 8, "%d,%d,%d,%d", &_padding.top, &_padding.right, &_padding.bottom, &_padding.left);
     //CCLOG("cocos2d: padding: %d,%d,%d,%d", _padding.left, _padding.top, _padding.right, _padding.bottom);
