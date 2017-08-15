@@ -4,6 +4,18 @@
 -- @parent_module cc
 
 --------------------------------
+-- 
+-- @function [parent=#Device] getCurrentDeviceModel 
+-- @param self
+-- @return char#char ret (return value: char)
+        
+--------------------------------
+-- 
+-- @function [parent=#Device] getNetworkType 
+-- @param self
+-- @return int#int ret (return value: int)
+        
+--------------------------------
 -- To enable or disable accelerometer.
 -- @function [parent=#Device] setAccelerometerEnabled 
 -- @param self
@@ -42,5 +54,17 @@
 -- @function [parent=#Device] getDPI 
 -- @param self
 -- @return int#int ret (return value: int)
+        
+--------------------------------
+-- Gets UUid   机器唯一标示
+-- @function [parent=#Device] getUUid 
+-- @param self
+-- @return char#char ret (return value: char)
+        
+--------------------------------
+-- 
+-- @function [parent=#Device] getVersion 
+-- @param self
+-- @return char#char ret (return value: char)
         
 return nil

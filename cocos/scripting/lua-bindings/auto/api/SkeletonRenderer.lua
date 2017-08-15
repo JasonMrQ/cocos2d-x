@@ -25,6 +25,12 @@
         
 --------------------------------
 -- 
+-- @function [parent=#SkeletonRenderer] getPngsPath 
+-- @param self
+-- @return array_table#array_table ret (return value: array_table)
+        
+--------------------------------
+-- 
 -- @function [parent=#SkeletonRenderer] initWithData 
 -- @param self
 -- @param #spSkeletonData skeletonData

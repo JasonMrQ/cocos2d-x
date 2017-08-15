@@ -170,7 +170,7 @@
 -- @return int#int ret (return value: int)
         
 --------------------------------
---  Returns the TextureAtlas object. <br>
+--  Returns the TextureAtlas object.<br>
 -- return The TextureAtlas object.
 -- @function [parent=#SpriteBatchNode] getTextureAtlas 
 -- @param self
@@ -207,6 +207,15 @@
 -- @function [parent=#SpriteBatchNode] createWithTexture 
 -- @param self
 -- @param #cc.Texture2D tex
+-- @param #int capacity
+-- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
+        
+--------------------------------
+-- 
+-- @function [parent=#SpriteBatchNode] createWithSpriteFrame 
+-- @param self
+-- @param #cc.SpriteFrame sf
+-- @param #rect_table rect
 -- @param #int capacity
 -- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
         
