@@ -48,14 +48,14 @@ class ListenerComponent : public Component
 {
 public:
     static const std::string COMPONENT_NAME;    /*!< component name */
-
+    
     static ListenerComponent* create(Node* parent, const std::string& url, const RichText::OpenUrlHandler handleOpenUrl = nullptr)
     {
         auto component = new (std::nothrow) ListenerComponent(parent, url, handleOpenUrl);
         component->autorelease();
         return component;
     }
-
+    
     explicit ListenerComponent(Node* parent, const std::string& url, const RichText::OpenUrlHandler handleOpenUrl)
     : _parent(parent)
     , _url(url)
@@ -65,17 +65,17 @@ public:
         
         _touchListener = cocos2d::EventListenerTouchAllAtOnce::create();
         _touchListener->onTouchesEnded = CC_CALLBACK_2(ListenerComponent::onTouchesEnded, this);
-
+        
         Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, _parent);
         _touchListener->retain();
     }
-
+    
     virtual ~ListenerComponent()
     {
         Director::getInstance()->getEventDispatcher()->removeEventListener(_touchListener);
         _touchListener->release();
     }
-
+    
     void onTouchesEnded(const std::vector<Touch*>& touches, Event* /*event*/)
     {
         for (const auto& touch: touches)
@@ -94,7 +94,7 @@ public:
     {
         _handleOpenUrl = handleOpenUrl;
     }
-
+    
 private:
     Node* _parent;      // weak ref.
     std::string _url;
@@ -138,7 +138,7 @@ RichElementText* RichElementText::create(int tag, const Color3B &color, GLubyte 
     CC_SAFE_DELETE(element);
     return nullptr;
 }
-    
+
 bool RichElementText::init(int tag, const Color3B &color, GLubyte opacity, const std::string& text,
                            const std::string& fontName, float fontSize, uint32_t flags, const std::string& url,
                            const Color3B& outlineColor, int outlineSize ,
@@ -174,7 +174,7 @@ RichElementImage* RichElementImage::create(int tag, const Color3B &color, GLubyt
     CC_SAFE_DELETE(element);
     return nullptr;
 }
-    
+
 bool RichElementImage::init(int tag, const Color3B &color, GLubyte opacity, const std::string& filePath, const std::string& url, Widget::TextureResType texType)
 {
     if (RichElement::init(tag, color, opacity))
@@ -215,7 +215,7 @@ RichElementCustomNode* RichElementCustomNode::create(int tag, const Color3B &col
     CC_SAFE_DELETE(element);
     return nullptr;
 }
-    
+
 bool RichElementCustomNode::init(int tag, const Color3B &color, GLubyte opacity, cocos2d::Node *customNode)
 {
     if (RichElement::init(tag, color, opacity))
@@ -226,7 +226,7 @@ bool RichElementCustomNode::init(int tag, const Color3B &color, GLubyte opacity,
     }
     return false;
 }
-    
+
 RichElementNewLine* RichElementNewLine::create(int tag, const Color3B& color, GLubyte opacity)
 {
     RichElementNewLine* element = new (std::nothrow) RichElementNewLine();
@@ -333,11 +333,11 @@ public:
     std::tuple<bool, Color3B> getGlow() const;
     
     void startElement(void *ctx, const char *name, const char **atts) override;
-
+    
     void endElement(void *ctx, const char *name) override;
-
+    
     void textHandler(void *ctx, const char *s, size_t len) override;
-
+    
     
     void pushBackFontElement(const Attributes& attribs);
     
@@ -720,7 +720,7 @@ void MyXMLVisitor::startElement(void* /*ctx*/, const char *elementName, const ch
                             attributes.shadowColor = _richText->color3BWithString(attrValueMap.at(RichText::KEY_TEXT_SHADOW_COLOR).asString());
                         }
                         if ((attrValueMap.find(RichText::KEY_TEXT_SHADOW_OFFSET_WIDTH) != attrValueMap.end())
-                                && (attrValueMap.find(RichText::KEY_TEXT_SHADOW_OFFSET_HEIGHT) != attrValueMap.end())) {
+                            && (attrValueMap.find(RichText::KEY_TEXT_SHADOW_OFFSET_HEIGHT) != attrValueMap.end())) {
                             attributes.shadowOffset = Size(attrValueMap.at(RichText::KEY_TEXT_SHADOW_OFFSET_WIDTH).asFloat(),
                                                            attrValueMap.at(RichText::KEY_TEXT_SHADOW_OFFSET_HEIGHT).asFloat());
                         }
@@ -796,11 +796,11 @@ void MyXMLVisitor::textHandler(void* /*ctx*/, const char *str, size_t len)
         flags |= RichElementText::SHADOW_FLAG;
     if (std::get<0>(glow))
         flags |= RichElementText::GLOW_FLAG;
-
+    
     auto element = RichElementText::create(0, color, 255, text, face, fontSize, flags, url,
-        std::get<1>(outline), std::get<2>(outline),
-        std::get<1>(shadow), std::get<2>(shadow), std::get<3>(shadow),
-        std::get<1>(glow));
+                                           std::get<1>(outline), std::get<2>(outline),
+                                           std::get<1>(shadow), std::get<2>(shadow), std::get<3>(shadow),
+                                           std::get<1>(glow));
     _richText->pushBackElement(element);
 }
 
@@ -881,12 +881,12 @@ const std::string RichText::KEY_ANCHOR_TEXT_SHADOW_BLUR_RADIUS("KEY_ANCHOR_TEXT_
 const std::string RichText::KEY_ANCHOR_TEXT_GLOW_COLOR("KEY_ANCHOR_TEXT_GLOW_COLOR");
 
 RichText::RichText()
-    : _formatTextDirty(true)
-    , _leftSpaceWidth(0.0f)
+: _formatTextDirty(true)
+, _leftSpaceWidth(0.0f)
 {
     _defaults[KEY_VERTICAL_SPACE] = 0.0f;
     _defaults[KEY_WRAP_MODE] = static_cast<int>(WrapMode::WRAP_PER_WORD);
-	_defaults[KEY_HORIZONTAL_ALIGNMENT] = static_cast<int>(HorizontalAlignment::LEFT);
+    _defaults[KEY_HORIZONTAL_ALIGNMENT] = static_cast<int>(HorizontalAlignment::LEFT);
     _defaults[KEY_FONT_COLOR_STRING] = "#ffffff";
     _defaults[KEY_FONT_SIZE] = 12.0f;
     _defaults[KEY_FONT_FACE] = "Verdana";
@@ -896,12 +896,12 @@ RichText::RichText()
     _defaults[KEY_ANCHOR_TEXT_LINE] = VALUE_TEXT_LINE_NONE;
     _defaults[KEY_ANCHOR_TEXT_STYLE] = VALUE_TEXT_STYLE_NONE;
 }
-    
+
 RichText::~RichText()
 {
     _richElements.clear();
 }
-    
+
 RichText* RichText::create()
 {
     RichText* widget = new (std::nothrow) RichText();
@@ -949,14 +949,14 @@ bool RichText::initWithXML(const std::string& origxml, const ValueMap& defaults,
     {
         setDefaults(defaults);
         setOpenUrlHandler(handleOpenUrl);
-
+        
         // solves to issues:
         //  - creates defaults values
         //  - makes sure that the xml well formed and starts with an element
         std::string xml = startTagFont(this);
         xml += origxml;
         xml += "</font>";
-
+        
         MyXMLVisitor visitor(this);
         SAXParser parser;
         parser.setDelegator(&visitor);
@@ -964,7 +964,7 @@ bool RichText::initWithXML(const std::string& origxml, const ValueMap& defaults,
     }
     return false;
 }
-    
+
 void RichText::initRenderer()
 {
 }
@@ -974,19 +974,19 @@ void RichText::insertElement(RichElement *element, int index)
     _richElements.insert(index, element);
     _formatTextDirty = true;
 }
-    
+
 void RichText::pushBackElement(RichElement *element)
 {
     _richElements.pushBack(element);
     _formatTextDirty = true;
 }
-    
+
 void RichText::removeElement(int index)
 {
     _richElements.erase(index);
     _formatTextDirty = true;
 }
-    
+
 void RichText::removeElement(RichElement *element)
 {
     _richElements.eraseObject(element);
@@ -1009,16 +1009,16 @@ void RichText::setWrapMode(RichText::WrapMode wrapMode)
 
 RichText::HorizontalAlignment RichText::getHorizontalAlignment() const
 {
-	return static_cast<RichText::HorizontalAlignment>(_defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt());
+    return static_cast<RichText::HorizontalAlignment>(_defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt());
 }
 
 void RichText::setHorizontalAlignment(cocos2d::ui::RichText::HorizontalAlignment a)
 {
-	if (static_cast<RichText::HorizontalAlignment>(_defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt()) != a)
-	{
-		_defaults[KEY_HORIZONTAL_ALIGNMENT] = static_cast<int>(a);
-		_formatTextDirty = true;
-	}
+    if (static_cast<RichText::HorizontalAlignment>(_defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt()) != a)
+    {
+        _defaults[KEY_HORIZONTAL_ALIGNMENT] = static_cast<int>(a);
+        _formatTextDirty = true;
+    }
 }
 
 void RichText::setFontColor(const std::string& color)
@@ -1224,9 +1224,9 @@ void RichText::setDefaults(const ValueMap& defaults)
     if (defaults.find(KEY_WRAP_MODE) != defaults.end()) {
         _defaults[KEY_WRAP_MODE] = defaults.at(KEY_WRAP_MODE).asInt();
     }
-	if (defaults.find(KEY_HORIZONTAL_ALIGNMENT) != defaults.end()) {
-		_defaults[KEY_HORIZONTAL_ALIGNMENT] = defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt();
-	}
+    if (defaults.find(KEY_HORIZONTAL_ALIGNMENT) != defaults.end()) {
+        _defaults[KEY_HORIZONTAL_ALIGNMENT] = defaults.at(KEY_HORIZONTAL_ALIGNMENT).asInt();
+    }
     if (defaults.find(KEY_FONT_COLOR_STRING) != defaults.end()) {
         _defaults[KEY_FONT_COLOR_STRING] = defaults.at(KEY_FONT_COLOR_STRING).asString();
     }
@@ -1370,7 +1370,7 @@ void RichText::formatText()
                         Label* label;
                         if (FileUtils::getInstance()->isFileExist(elmtText->_fontName))
                         {
-                             label = Label::createWithTTF(elmtText->_text, elmtText->_fontName, elmtText->_fontSize);
+                            label = Label::createWithTTF(elmtText->_text, elmtText->_fontName, elmtText->_fontSize);
                         }
                         else
                         {
@@ -1438,7 +1438,7 @@ void RichText::formatText()
                     default:
                         break;
                 }
-
+                
                 if (elementRenderer)
                 {
                     elementRenderer->setColor(element->_color);
@@ -1497,7 +1497,7 @@ static int getPrevWord(const std::string& text, int idx)
     // start from idx-1
     for (int i=idx-1; i>=0; --i)
     {
-		if (!std::isalnum(text[i], std::locale()))
+        if (!std::isalnum(text[i], std::locale()))
             return i;
     }
     return -1;
@@ -1516,7 +1516,7 @@ static bool isWrappable(const std::string& text)
 int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string& text)
 {
     auto originalLeftSpaceWidth = _leftSpaceWidth + label->getContentSize().width;
-
+    
     bool startingNewLine = (_customSize.width == originalLeftSpaceWidth);
     if (!isWrappable(text))
     {
@@ -1524,7 +1524,7 @@ int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string&
             return (int) text.length();
         return 0;
     }
-
+    
     for(int idx = (int)text.size()-1; idx >=0; )
     {
         int newidx = getPrevWord(text, idx);
@@ -1543,7 +1543,7 @@ int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string&
             return 0;
         }
     }
-
+    
     // no spaces... return the original label + size
     label->setString(text);
     return (int)text.size();
@@ -1553,14 +1553,14 @@ int RichText::findSplitPositionForWord(cocos2d::Label* label, const std::string&
 int RichText::findSplitPositionForChar(cocos2d::Label* label, const std::string& text)
 {
     float textRendererWidth = label->getContentSize().width;
-
+    
     float overstepPercent = (-_leftSpaceWidth) / textRendererWidth;
     std::string curText = text;
     size_t stringLength = StringUtils::getCharacterCountInUTF8String(text);
-
+    
     // rough estimate
     int leftLength = stringLength * (1.0f - overstepPercent);
-
+    
     // The adjustment of the new line position
     auto originalLeftSpaceWidth = _leftSpaceWidth + textRendererWidth;
     auto leftStr = Helper::getSubStringOfUTF8String(curText, 0, leftLength);
@@ -1597,7 +1597,7 @@ int RichText::findSplitPositionForChar(cocos2d::Label* label, const std::string&
             }
         }
     }
-
+    
     if (leftLength < 0)
         leftLength = (int)text.size()-1;
     return leftLength;
@@ -1614,7 +1614,7 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
     if (fileExist)
     {
         textRenderer = Label::createWithTTF(text, fontName, fontSize);
-    } 
+    }
     else
     {
         textRenderer = Label::createWithSystemFont(text, fontName, fontSize);
@@ -1640,7 +1640,7 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
     if (flags & RichElementText::GLOW_FLAG) {
         textRenderer->enableGlow(Color4B(glowColor));
     }
-
+    
     float textRendererWidth = textRenderer->getContentSize().width;
     _leftSpaceWidth -= textRendererWidth;
     if (_leftSpaceWidth < 0.0f)
@@ -1650,9 +1650,9 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
             leftLength = findSplitPositionForWord(textRenderer, text);
         else
             leftLength = findSplitPositionForChar(textRenderer, text);
-
+        
         //The minimum cut length is 1, otherwise will cause the infinite loop.
-//        if (0 == leftLength) leftLength = 1;
+        //        if (0 == leftLength) leftLength = 1;
         std::string leftWords = Helper::getSubStringOfUTF8String(text, 0, leftLength);
         int rightStart = leftLength;
         if (std::isspace(text[rightStart], std::locale()))
@@ -1674,7 +1674,7 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
                 leftRenderer->setColor(color);
                 leftRenderer->setOpacity(opacity);
                 pushToContainer(leftRenderer);
-
+                
                 if (flags & RichElementText::ITALICS_FLAG)
                     leftRenderer->enableItalics();
                 if (flags & RichElementText::BOLD_FLAG)
@@ -1698,7 +1698,7 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
                 }
             }
         }
-
+        
         addNewLine();
         handleTextRenderer(cutWords, fontName, fontSize, color, opacity, flags, url,
                            outlineColor, outlineSize,
@@ -1712,7 +1712,7 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
         pushToContainer(textRenderer);
     }
 }
-    
+
 void RichText::handleImageRenderer(const std::string& filePath, const Color3B &/*color*/, GLubyte /*opacity*/, int width, int height, const std::string& url)
 {
     Sprite* imageRenderer = Sprite::create(filePath);
@@ -1724,7 +1724,7 @@ void RichText::handleImageRenderer(const std::string& filePath, const Color3B &/
         if (height != -1)
             imageRenderer->setScaleY(height / currentSize.height);
         imageRenderer->setContentSize(Size(currentSize.width * imageRenderer->getScaleX(),
-                                             currentSize.height * imageRenderer->getScaleY()));
+                                           currentSize.height * imageRenderer->getScaleY()));
         imageRenderer->setScale(1.f, 1.f);
         handleCustomRenderer(imageRenderer);
         imageRenderer->addComponent(ListenerComponent::create(imageRenderer,
@@ -1748,13 +1748,13 @@ void RichText::handleCustomRenderer(cocos2d::Node *renderer)
         pushToContainer(renderer);
     }
 }
-    
+
 void RichText::addNewLine()
 {
     _leftSpaceWidth = _customSize.width;
     _elementRenders.emplace_back();
 }
-    
+
 void RichText::formarRenderers()
 {
     if (_ignoreSize)
@@ -1901,7 +1901,7 @@ void RichText::pushToContainer(cocos2d::Node *renderer)
     }
     _elementRenders[_elementRenders.size()-1].pushBack(renderer);
 }
-    
+
 void RichText::setVerticalSpace(float space)
 {
     _defaults[KEY_VERTICAL_SPACE] = space;
@@ -1915,7 +1915,7 @@ void RichText::ignoreContentAdaptWithSize(bool ignore)
         Widget::ignoreContentAdaptWithSize(ignore);
     }
 }
-    
+
 std::string RichText::getDescription() const
 {
     return "RichText";

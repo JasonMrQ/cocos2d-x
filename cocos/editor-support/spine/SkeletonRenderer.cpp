@@ -371,6 +371,21 @@ spSlot* SkeletonRenderer::findSlot (const std::string& slotName) const {
 	return spSkeleton_findSlot(_skeleton, slotName.c_str());
 }
 
+//add Jason
+std::vector<std::string> SkeletonRenderer::getPngsPath() const
+{
+    std::vector<std::string> vec;
+    if (this->_atlas)
+    {
+        for (int i = 0; i< 20; i++) {
+            if (this->_atlas->pngsPath[i]){
+                vec.push_back(this->_atlas->pngsPath[i]);
+            }
+        }
+    }
+    return vec;
+}
+
 bool SkeletonRenderer::setSkin (const std::string& skinName) {
 	return spSkeleton_setSkinByName(_skeleton, skinName.empty() ? 0 : skinName.c_str()) ? true : false;
 }

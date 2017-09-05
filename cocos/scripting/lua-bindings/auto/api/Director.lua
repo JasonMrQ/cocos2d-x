@@ -77,6 +77,13 @@
 -- @return float#float ret (return value: float)
         
 --------------------------------
+-- Clear all types of matrix stack, and add identity matrix to these matrix stacks.<br>
+-- js NA
+-- @function [parent=#Director] resetMatrixStack 
+-- @param self
+-- @return Director#Director self (return value: cc.Director)
+        
+--------------------------------
 --  Sets the OpenGL default values.<br>
 -- It will enable alpha blending, disable depth test.<br>
 -- js NA
@@ -117,6 +124,12 @@
 -- @param #int type
 -- @param #mat4_table mat
 -- @return Director#Director self (return value: cc.Director)
+        
+--------------------------------
+-- 
+-- @function [parent=#Director] getSceneStackSize 
+-- @param self
+-- @return int#int ret (return value: int)
         
 --------------------------------
 --  This object will be visited after the main scene is visited.<br>
@@ -183,10 +196,10 @@
 -- @return float#float ret (return value: float)
         
 --------------------------------
--- Clear all types of matrix stack, and add identity matrix to these matrix stacks.<br>
--- js NA
--- @function [parent=#Director] resetMatrixStack 
+-- 
+-- @function [parent=#Director] popUnusedScenesByStackLevel 
 -- @param self
+-- @param #int level
 -- @return Director#Director self (return value: cc.Director)
         
 --------------------------------
@@ -278,6 +291,17 @@
 -- @return Director#Director self (return value: cc.Director)
         
 --------------------------------
+-- Adds a matrix to the top of projection matrix stack.<br>
+-- param mat The matrix that to be added.<br>
+-- param index The index of projection matrix stack.<br>
+-- js NA
+-- @function [parent=#Director] loadProjectionMatrix 
+-- @param self
+-- @param #mat4_table mat
+-- @param #unsigned long index
+-- @return Director#Director self (return value: cc.Director)
+        
+--------------------------------
 --  Stops the animation. Nothing will be drawn. The main loop won't be triggered anymore.<br>
 -- If you don't want to pause your animation call [pause] instead.
 -- @function [parent=#Director] stopAnimation 
@@ -295,6 +319,15 @@
 -- @return Director#Director self (return value: cc.Director)
         
 --------------------------------
+--  Sets clear values for the color buffers,<br>
+-- value range of each element is [0.0, 1.0].<br>
+-- js NA
+-- @function [parent=#Director] setClearColor 
+-- @param self
+-- @param #color4f_table clearColor
+-- @return Director#Director self (return value: cc.Director)
+        
+--------------------------------
 --  Resumes the paused scene.<br>
 -- The scheduled timers will be activated again.<br>
 -- The "delta time" will be 0 (as if the game wasn't paused).
@@ -309,13 +342,10 @@
 -- @return bool#bool ret (return value: bool)
         
 --------------------------------
---  Sets clear values for the color buffers,<br>
--- value range of each element is [0.0, 1.0].<br>
--- js NA
--- @function [parent=#Director] setClearColor 
+-- 
+-- @function [parent=#Director] getNextScene 
 -- @param self
--- @param #color4f_table clearColor
--- @return Director#Director self (return value: cc.Director)
+-- @return Scene#Scene ret (return value: cc.Scene)
         
 --------------------------------
 --  Ends the execution, releases the running scene.<br>
@@ -374,9 +404,8 @@
 -- @return Director#Director self (return value: cc.Director)
         
 --------------------------------
---  Draw the scene.<br>
--- This method is called every frame. Don't call it manually.
--- @function [parent=#Director] drawScene 
+-- 
+-- @function [parent=#Director] popSceneData 
 -- @param self
 -- @return Director#Director self (return value: cc.Director)
         
@@ -467,15 +496,10 @@
 -- @return size_table#size_table ret (return value: size_table)
         
 --------------------------------
--- Adds a matrix to the top of projection matrix stack.<br>
--- param mat The matrix that to be added.<br>
--- param index The index of projection matrix stack.<br>
--- js NA
--- @function [parent=#Director] loadProjectionMatrix 
+-- 
+-- @function [parent=#Director] getNext2Scene 
 -- @param self
--- @param #mat4_table mat
--- @param #unsigned long index
--- @return Director#Director self (return value: cc.Director)
+-- @return Scene#Scene ret (return value: cc.Scene)
         
 --------------------------------
 -- Init the projection matrix stack.<br>
@@ -529,6 +553,13 @@
 -- @function [parent=#Director] getEventDispatcher 
 -- @param self
 -- @return EventDispatcher#EventDispatcher ret (return value: cc.EventDispatcher)
+        
+--------------------------------
+--  Draw the scene.<br>
+-- This method is called every frame. Don't call it manually.
+-- @function [parent=#Director] drawScene 
+-- @param self
+-- @return Director#Director self (return value: cc.Director)
         
 --------------------------------
 --  Replaces the running scene with a new one. The running scene is terminated.<br>

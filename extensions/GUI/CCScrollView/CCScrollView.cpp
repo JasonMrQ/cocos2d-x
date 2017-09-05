@@ -230,7 +230,23 @@ void ScrollView::setContentOffset(Vec2 offset, bool animated/* = false*/)
             offset.x = MAX(minOffset.x, MIN(maxOffset.x, offset.x));
             offset.y = MAX(minOffset.y, MIN(maxOffset.y, offset.y));
         }
-
+        else
+        {
+            //add by Jason fixed 左右滑动时，滑到最左边后无法回来BUG
+            if (_direction == Direction::HORIZONTAL)
+            {
+                const Vec2 minOffset = this->minContainerOffset();
+                const Vec2 maxOffset = this->maxContainerOffset();
+                if(offset.x <= minOffset.x)
+                {
+//                    offset.x = min.x + _viewSize.width - 32 ;
+//                    this->stopAnimatedContentOffset();
+                    offset.x = MAX(minOffset.x, MIN(maxOffset.x, offset.x));
+                    offset.y = MAX(minOffset.y, MIN(maxOffset.y, offset.y));
+                }
+            }
+            //end by Jason
+        }
         _container->setPosition(offset);
 
         if (_delegate != nullptr)
@@ -473,6 +489,12 @@ void ScrollView::stoppedAnimatedScroll(Node * /*node*/)
     {
         _delegate->scrollViewDidScroll(this);
     }
+    //add by Jason
+    _scrollDistance.setZero();
+    _dragging = false;
+    _touchMoved = false;
+    _touches.clear();
+    //end by Jason
 }
 
 void ScrollView::performedAnimatedScroll(float /*dt*/)

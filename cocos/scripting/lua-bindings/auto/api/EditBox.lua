@@ -114,6 +114,12 @@
 -- @return EditBox#EditBox self (return value: ccui.EditBox)
         
 --------------------------------
+-- 
+-- @function [parent=#EditBox] openKeyboard 
+-- @param self
+-- @return EditBox#EditBox self (return value: ccui.EditBox)
+        
+--------------------------------
 -- Set the placeholder's font size.<br>
 -- param fontSize The font size.
 -- @function [parent=#EditBox] setPlaceholderFontSize 

@@ -772,6 +772,7 @@ int register_all_cocos2dx_ui(lua_State* tolua_S);
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -793,4 +794,6 @@ int register_all_cocos2dx_ui(lua_State* tolua_S);
 
 
 
+=======
+>>>>>>> wolf_qb
 #endif // __cocos2dx_ui_h__

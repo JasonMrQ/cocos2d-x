@@ -131,6 +131,10 @@ void SkeletonAnimation::update (float deltaTime) {
 	deltaTime *= _timeScale;
 	spAnimationState_update(_state, deltaTime);
 	spAnimationState_apply(_state, _skeleton);
+    // add by Jason
+    if(_parent == nullptr)
+        return;
+    // add by Jason end
 	spSkeleton_updateWorldTransform(_skeleton);
 }
 

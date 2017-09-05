@@ -96,6 +96,20 @@ public:
      * Gets texture data for text.
      */
     static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);
+    
+    //add Jason
+    /**
+     * Gets UUid   机器唯一标示
+     */
+    static const char* getUUid();
+    
+    static int getNetworkType();
+    
+    //机型
+    static const char* getCurrentDeviceModel();
+    
+    //获取系统版本号
+    static const char* getVersion();
 
 private:
     CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device);

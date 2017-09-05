@@ -279,6 +279,15 @@
 -- @return FileUtils#FileUtils self (return value: cc.FileUtils)
 
 --------------------------------
+-- 
+-- @function [parent=#FileUtils] UnpackZipToDir 
+-- @param self
+-- @param #char dirName
+-- @param #char zipFileName
+-- @param #function callback
+-- @return int#int ret (return value: int)
+        
+--------------------------------
 -- Sets the array that contains the search order of the resources.<br>
 -- param searchResolutionsOrder The source array that contains the search order of the resources.<br>
 -- see getSearchResolutionsOrder(), fullPathForFilename(const char*).<br>

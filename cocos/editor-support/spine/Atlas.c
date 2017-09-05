@@ -171,7 +171,7 @@ spAtlas* spAtlas_create (const char* begin, int length, const char* dir, void* r
 	const char* end = begin + length;
 	int dirLength = (int)strlen(dir);
 	int needsSlash = dirLength > 0 && dir[dirLength - 1] != '/' && dir[dirLength - 1] != '\\';
-
+    int pageCount = 0;
 	spAtlasPage *page = 0;
 	spAtlasPage *lastPage = 0;
 	spAtlasRegion *lastRegion = 0;
@@ -180,6 +180,9 @@ spAtlas* spAtlas_create (const char* begin, int length, const char* dir, void* r
 
 	self = NEW(spAtlas);
 	self->rendererObject = rendererObject;
+    //add by Jason 20是图片最大数量，下面释放时20数量要统一
+    self->pngsPath = MALLOC(char*,20*sizeof(char*));
+    memset(self->pngsPath ,0, 20*sizeof(char*));
 
 	while (readLine(&begin, end, &str)) {
 		if (str.end - str.begin == 0) {
@@ -192,6 +195,11 @@ spAtlas* spAtlas_create (const char* begin, int length, const char* dir, void* r
 			strcpy(path + dirLength + needsSlash, name);
 
 			page = spAtlasPage_create(self, name);
+            //add by Jason
+            self->pngsPath[pageCount] = MALLOC(char, strlen(path) + 1);
+            strcpy(self->pngsPath[pageCount],path);
+            pageCount++;
+            //end
 			FREE(name);
 			if (lastPage)
 				lastPage->next = page;
