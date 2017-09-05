@@ -30756,20 +30756,6 @@ int lua_cocos2dx_Properties_getVariable(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 1) 
-    {
-        const char* arg0;
-
-        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "cc.Properties:getVariable"); arg0 = arg0_tmp.c_str();
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getVariable'", nullptr);
-            return 0;
-        }
-        const char* ret = cobj->getVariable(arg0);
-        tolua_pushstring(tolua_S,(const char*)ret);
-        return 1;
-    }
     if (argc == 2) 
     {
         const char* arg0;
@@ -30787,7 +30773,7 @@ int lua_cocos2dx_Properties_getVariable(lua_State* tolua_S)
         tolua_pushstring(tolua_S,(const char*)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getVariable",argc, 1);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getVariable",argc, 2);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -30823,31 +30809,6 @@ int lua_cocos2dx_Properties_getString(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getString'", nullptr);
-            return 0;
-        }
-        const char* ret = cobj->getString();
-        tolua_pushstring(tolua_S,(const char*)ret);
-        return 1;
-    }
-    if (argc == 1) 
-    {
-        const char* arg0;
-
-        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "cc.Properties:getString"); arg0 = arg0_tmp.c_str();
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getString'", nullptr);
-            return 0;
-        }
-        const char* ret = cobj->getString(arg0);
-        tolua_pushstring(tolua_S,(const char*)ret);
-        return 1;
-    }
     if (argc == 2) 
     {
         const char* arg0;
@@ -30865,7 +30826,7 @@ int lua_cocos2dx_Properties_getString(lua_State* tolua_S)
         tolua_pushstring(tolua_S,(const char*)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getString",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getString",argc, 2);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -30901,17 +30862,6 @@ int lua_cocos2dx_Properties_getLong(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getLong'", nullptr);
-            return 0;
-        }
-        long ret = cobj->getLong();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
     if (argc == 1) 
     {
         const char* arg0;
@@ -30926,7 +30876,7 @@ int lua_cocos2dx_Properties_getLong(lua_State* tolua_S)
         tolua_pushnumber(tolua_S,(lua_Number)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getLong",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getLong",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -31406,17 +31356,6 @@ int lua_cocos2dx_Properties_getBool(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getBool'", nullptr);
-            return 0;
-        }
-        bool ret = cobj->getBool();
-        tolua_pushboolean(tolua_S,(bool)ret);
-        return 1;
-    }
     if (argc == 1) 
     {
         const char* arg0;
@@ -31448,7 +31387,7 @@ int lua_cocos2dx_Properties_getBool(lua_State* tolua_S)
         tolua_pushboolean(tolua_S,(bool)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getBool",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getBool",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -31547,17 +31486,6 @@ int lua_cocos2dx_Properties_getType(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getType'", nullptr);
-            return 0;
-        }
-        int ret = (int)cobj->getType();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
     if (argc == 1) 
     {
         const char* arg0;
@@ -31572,7 +31500,7 @@ int lua_cocos2dx_Properties_getType(lua_State* tolua_S)
         tolua_pushnumber(tolua_S,(lua_Number)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getType",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getType",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -31655,17 +31583,6 @@ int lua_cocos2dx_Properties_getInt(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getInt'", nullptr);
-            return 0;
-        }
-        int ret = cobj->getInt();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
     if (argc == 1) 
     {
         const char* arg0;
@@ -31680,7 +31597,7 @@ int lua_cocos2dx_Properties_getInt(lua_State* tolua_S)
         tolua_pushnumber(tolua_S,(lua_Number)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getInt",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getInt",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -31922,17 +31839,6 @@ int lua_cocos2dx_Properties_getFloat(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Properties_getFloat'", nullptr);
-            return 0;
-        }
-        double ret = cobj->getFloat();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
     if (argc == 1) 
     {
         const char* arg0;
@@ -31947,7 +31853,7 @@ int lua_cocos2dx_Properties_getFloat(lua_State* tolua_S)
         tolua_pushnumber(tolua_S,(lua_Number)ret);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getFloat",argc, 0);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Properties:getFloat",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -97063,61 +96969,6 @@ int lua_cocos2dx_SpriteBatchNode_createWithTexture(lua_State* tolua_S)
 #endif
     return 0;
 }
-int lua_cocos2dx_SpriteBatchNode_createWithSpriteFrame(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"cc.SpriteBatchNode",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        cocos2d::SpriteFrame* arg0;
-        cocos2d::Rect arg1;
-        ok &= luaval_to_object<cocos2d::SpriteFrame>(tolua_S, 2, "cc.SpriteFrame",&arg0, "cc.SpriteBatchNode:createWithSpriteFrame");
-        ok &= luaval_to_rect(tolua_S, 3, &arg1, "cc.SpriteBatchNode:createWithSpriteFrame");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_SpriteBatchNode_createWithSpriteFrame'", nullptr);
-            return 0;
-        }
-        cocos2d::SpriteBatchNode* ret = cocos2d::SpriteBatchNode::createWithSpriteFrame(arg0, arg1);
-        object_to_luaval<cocos2d::SpriteBatchNode>(tolua_S, "cc.SpriteBatchNode",(cocos2d::SpriteBatchNode*)ret);
-        return 1;
-    }
-    if (argc == 3)
-    {
-        cocos2d::SpriteFrame* arg0;
-        cocos2d::Rect arg1;
-        ssize_t arg2;
-        ok &= luaval_to_object<cocos2d::SpriteFrame>(tolua_S, 2, "cc.SpriteFrame",&arg0, "cc.SpriteBatchNode:createWithSpriteFrame");
-        ok &= luaval_to_rect(tolua_S, 3, &arg1, "cc.SpriteBatchNode:createWithSpriteFrame");
-        ok &= luaval_to_ssize(tolua_S, 4, &arg2, "cc.SpriteBatchNode:createWithSpriteFrame");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_SpriteBatchNode_createWithSpriteFrame'", nullptr);
-            return 0;
-        }
-        cocos2d::SpriteBatchNode* ret = cocos2d::SpriteBatchNode::createWithSpriteFrame(arg0, arg1, arg2);
-        object_to_luaval<cocos2d::SpriteBatchNode>(tolua_S, "cc.SpriteBatchNode",(cocos2d::SpriteBatchNode*)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "cc.SpriteBatchNode:createWithSpriteFrame",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_SpriteBatchNode_createWithSpriteFrame'.",&tolua_err);
-#endif
-    return 0;
-}
 int lua_cocos2dx_SpriteBatchNode_constructor(lua_State* tolua_S)
 {
     int argc = 0;
@@ -97191,7 +97042,6 @@ int lua_register_cocos2dx_SpriteBatchNode(lua_State* tolua_S)
         tolua_function(tolua_S,"highestAtlasIndexInChild",lua_cocos2dx_SpriteBatchNode_highestAtlasIndexInChild);
         tolua_function(tolua_S,"create", lua_cocos2dx_SpriteBatchNode_create);
         tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_SpriteBatchNode_createWithTexture);
-        tolua_function(tolua_S,"createWithSpriteFrame", lua_cocos2dx_SpriteBatchNode_createWithSpriteFrame);
     tolua_endmodule(tolua_S);
     std::string typeName = typeid(cocos2d::SpriteBatchNode).name();
     g_luaType[typeName] = "cc.SpriteBatchNode";

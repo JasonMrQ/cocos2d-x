@@ -2267,7 +2267,6 @@ int register_all_cocos2dx(lua_State* tolua_S);
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -2290,6 +2289,14 @@ int register_all_cocos2dx(lua_State* tolua_S);
 
 
 
-=======
->>>>>>> wolf_qb
+
+
+
+
+
+
+
+
+
+
 #endif // __cocos2dx_h__

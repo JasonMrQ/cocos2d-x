@@ -211,15 +211,6 @@
 -- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
         
 --------------------------------
--- 
--- @function [parent=#SpriteBatchNode] createWithSpriteFrame 
--- @param self
--- @param #cc.SpriteFrame sf
--- @param #rect_table rect
--- @param #int capacity
--- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
-        
---------------------------------
 -- @overload self, cc.Node, int, string         
 -- @overload self, cc.Node, int, int         
 -- @function [parent=#SpriteBatchNode] addChild
