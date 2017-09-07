@@ -558,8 +558,7 @@ WebSocket::~WebSocket()
             LOGD("ERROR: WebSocket instance (%p) wasn't added to the container which saves websocket instances!\n", this);
         }
     }
-    delete __websocketInstances; //add  by Jason
-    __websocketInstances = nullptr;
+
     if (__websocketInstances == nullptr || __websocketInstances->empty())
     {
         __wsHelper->quitWebSocketThread();
@@ -569,7 +568,7 @@ WebSocket::~WebSocket()
 
         CC_SAFE_DELETE(__wsHelper);
     }
-    
+
     Director::getInstance()->getEventDispatcher()->removeEventListener(_resetDirectorListener);
     
     *_isDestroyed = true;

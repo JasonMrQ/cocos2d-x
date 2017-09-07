@@ -41,13 +41,17 @@ extern "C"
 
         std::string filename(luaL_checkstring(L, 1));
         size_t pos = filename.rfind(BYTECODE_FILE_EXT);
-        if (pos != std::string::npos && pos == filename.length() - BYTECODE_FILE_EXT.length())
+        if (pos != std::string::npos)
+        {
             filename = filename.substr(0, pos);
+        }
         else
         {
             pos = filename.rfind(NOT_BYTECODE_FILE_EXT);
-            if (pos != std::string::npos && pos == filename.length() - NOT_BYTECODE_FILE_EXT.length())
+            if (pos == filename.length() - NOT_BYTECODE_FILE_EXT.length())
+            {
                 filename = filename.substr(0, pos);
+            }
         }
 
         pos = filename.find_first_of(".");
@@ -73,55 +77,33 @@ extern "C"
         {
             if (next == std::string::npos)
                 next = searchpath.length();
-            std::string prefix = searchpath.substr(begin, next-begin);
+            std::string prefix = searchpath.substr(begin, next);
             if (prefix[0] == '.' && prefix[1] == '/')
+            {
                 prefix = prefix.substr(2);
+            }
 
-            pos = prefix.rfind(BYTECODE_FILE_EXT);
-            if (pos != std::string::npos && pos == prefix.length() - BYTECODE_FILE_EXT.length())
-            {
-                prefix = prefix.substr(0, pos);
-            }
-            else
-            {
-                pos = prefix.rfind(NOT_BYTECODE_FILE_EXT);
-                if (pos != std::string::npos && pos == prefix.length() - NOT_BYTECODE_FILE_EXT.length())
-                    prefix = prefix.substr(0, pos);
-            }
-            pos = prefix.find_first_of("?", 0);
-            while (pos != std::string::npos)
-            {
-                prefix.replace(pos, 1, filename);
-                pos = prefix.find_first_of("?", pos + filename.length() + 1);
-            }
-            chunkName = prefix + BYTECODE_FILE_EXT;
-            if (utils->isFileExist(chunkName) && !utils->isDirectoryExist(chunkName))
+            pos = prefix.find("?.lua");
+            chunkName = prefix.substr(0, pos) + filename + BYTECODE_FILE_EXT;
+            if (utils->isFileExist(chunkName))
             {
                 chunk = utils->getDataFromFile(chunkName);
                 break;
             }
             else
             {
-                chunkName = prefix + NOT_BYTECODE_FILE_EXT;
-                if (utils->isFileExist(chunkName) && !utils->isDirectoryExist(chunkName))
+                chunkName = prefix.substr(0, pos) + filename + NOT_BYTECODE_FILE_EXT;
+                if (utils->isFileExist(chunkName))
                 {
                     chunk = utils->getDataFromFile(chunkName);
                     break;
-                }
-                else
-                {
-                    chunkName = prefix;
-                    if (utils->isFileExist(chunkName) && !utils->isDirectoryExist(chunkName))
-                    {
-                        chunk = utils->getDataFromFile(chunkName);
-                        break;
-                    }
                 }
             }
 
             begin = next + 1;
             next = searchpath.find_first_of(";", begin);
-        } while (begin < searchpath.length());
+        } while (begin < (int)searchpath.length());
+
         if (chunk.getSize() > 0)
         {
             LuaStack* stack = LuaEngine::getInstance()->getLuaStack();

@@ -146,7 +146,6 @@ struct spAtlas {
 	spAtlasRegion* regions;
 
 	void* rendererObject;
-    char** pngsPath; //add by Jason
 };
 
 /* Image files referenced in the atlas file will be prefixed with dir. */

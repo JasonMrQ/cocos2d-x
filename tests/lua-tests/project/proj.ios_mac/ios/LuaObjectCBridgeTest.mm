@@ -73,10 +73,6 @@ static LuaObjectCBridgeTest* s_instance = nil;
     }
 }
 
-+(void) printLuaTableToDictionary:(NSDictionary *)dict{
-    NSLog(@"lua to OC data is :%@",dict);
-}
-
 - (id)init
 {
     _scriptHandler = 0;

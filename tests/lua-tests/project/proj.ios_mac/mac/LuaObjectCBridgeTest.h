@@ -14,8 +14,6 @@
 + (int)  addTwoNumbers:(NSDictionary *)dict;
 + (void) callbackScriptHandler;
 
-+ (void) printLuaTableToDictionary:(NSDictionary *)dict;
-
 - (id) init;
 @end
 

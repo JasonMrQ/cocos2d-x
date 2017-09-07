@@ -170,7 +170,7 @@
 -- @return int#int ret (return value: int)
         
 --------------------------------
---  Returns the TextureAtlas object.<br>
+--  Returns the TextureAtlas object. <br>
 -- return The TextureAtlas object.
 -- @function [parent=#SpriteBatchNode] getTextureAtlas 
 -- @param self

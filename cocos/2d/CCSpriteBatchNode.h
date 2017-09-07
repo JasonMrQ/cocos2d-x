@@ -85,7 +85,8 @@ public:
      */
     static SpriteBatchNode* create(const std::string& fileImage, ssize_t capacity = DEFAULT_CAPACITY);
 
-    /** Returns the TextureAtlas object.
+
+    /** Returns the TextureAtlas object. 
      *
      * @return The TextureAtlas object.
      */
