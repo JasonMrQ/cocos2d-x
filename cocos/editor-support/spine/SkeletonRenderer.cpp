@@ -33,6 +33,7 @@
 #include <spine/SkeletonBatch.h>
 #include <spine/AttachmentVertices.h>
 #include <spine/Cocos2dAttachmentLoader.h>
+#include <spine/BoundingBoxAttachment.c>
 #include <algorithm>
 
 USING_NS_CC;
@@ -345,6 +346,32 @@ cocos2d::Rect SkeletonRenderer::getBoundingBox () const {
 	Vec2 position = getPosition();
     if (minX == FLT_MAX) minX = minY = maxX = maxY = 0;
 	return cocos2d::Rect(position.x + minX, position.y + minY, maxX - minX, maxY - minY);
+}
+
+std::vector<cocos2d::Vec2> SkeletonRenderer::getPolygon(const std::string& name) {
+    float scaleX = getScaleX(), scaleY = getScaleY();
+    std::vector<cocos2d::Vec2> polygon;
+    Vec2 position = getPosition();
+    for (int i = 0; i < _skeleton->slotsCount; ++i) {
+        spSlot* slot = _skeleton->slots[i];
+        if (!slot->attachment) continue;
+        int verticesCount;
+        if (slot->attachment->type == SP_ATTACHMENT_BOUNDING_BOX)//判断type为spine边界框
+        {
+            if (slot->attachment->name == name)//确认边界框名称
+            {
+                spBoundingBoxAttachment* spa = (spBoundingBoxAttachment*)slot->attachment;
+                spBoundingBoxAttachment_computeWorldVertices(spa, slot, _worldVertices);
+                verticesCount = spa->super.verticesCount;
+                for (int ii = 0; ii < verticesCount; ii += 2) {
+                    float x = position.x +  _worldVertices[ii] * scaleX, y = position.y + _worldVertices[ii + 1] * scaleY;
+                    polygon.push_back(cocos2d::Vec2(x,y));
+                }
+                break;
+            }
+        }
+    }
+    return polygon;
 }
 
 // --- Convenience methods for Skeleton_* functions.

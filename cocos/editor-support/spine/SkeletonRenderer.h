@@ -50,6 +50,7 @@ public:
 	virtual void draw (cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t transformFlags) override;
     virtual void drawDebug (cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t transformFlags);
 	virtual cocos2d::Rect getBoundingBox () const override;
+    virtual std::vector<cocos2d::Vec2> getPolygon (const std::string& name);
 	virtual void onEnter () override;
 	virtual void onExit () override;
 

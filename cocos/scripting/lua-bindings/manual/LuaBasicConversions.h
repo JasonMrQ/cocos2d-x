@@ -1303,6 +1303,10 @@ void texParams_to_luaval(lua_State* L, const cocos2d::Texture2D::TexParams& inVa
  */
 void std_vector_vec3_to_luaval(lua_State* L, const std::vector<cocos2d::Vec3>& inValue);
 
+
+//add by Jason
+void std_vector_vec2_to_luaval(lua_State* L, const std::vector<cocos2d::Vec2>& inValue);
+
 /**
  * Push a Lua dict table converted from a std::map<std::string, std::string> into the Lua stack.
  *
