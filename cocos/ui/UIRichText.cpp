@@ -204,6 +204,7 @@ void RichElementImage::setUrl(const std::string& url)
     _url = url;
 }
 
+
 RichElementCustomNode* RichElementCustomNode::create(int tag, const Color3B &color, GLubyte opacity, cocos2d::Node *customNode)
 {
     RichElementCustomNode* element = new (std::nothrow) RichElementCustomNode();
@@ -1818,6 +1819,9 @@ void RichText::formarRenderers()
             
             doHorizontalAlignment(row, nextPosX);
         }
+        // add by Jason
+        this->setContentSize(Size(_contentSize.width, newContentSizeHeight));
+        //add by Jason end
     }
     
     _elementRenders.clear();
@@ -1829,7 +1833,11 @@ void RichText::formarRenderers()
     }
     else
     {
-        this->setContentSize(_customSize);
+//        this->setContentSize(_customSize);
+        // add by Jason
+        Size s = getVirtualRendererSize();
+        this->setContentSize(s);
+        //add by Jason end
     }
     updateContentSizeWithTextureSize(_contentSize);
 }
