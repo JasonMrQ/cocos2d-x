@@ -183,8 +183,8 @@ int lua_cocos2dx_spine_SkeletonRenderer_getPolygon(lua_State* tolua_S)
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_spine_SkeletonRenderer_getPolygon'", nullptr);
             return 0;
         }
-        std::vector<cocos2d::Vec2, std::allocator<cocos2d::Vec2> > ret = cobj->getPolygon(arg0);
-        object_to_luaval<std::vector<cocos2d::Vec2, std::allocator<cocos2d::Vec2> >>(tolua_S, "std::vector<cocos2d::Vec2, std::allocator<cocos2d::Vec2> >",(std::vector<cocos2d::Vec2, std::allocator<cocos2d::Vec2> >)ret);
+        std::vector<cocos2d::Vec2> ret = cobj->getPolygon(arg0);
+        std_vector_vec2_to_luaval(tolua_S , ret);
         return 1;
     }
     luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "sp.SkeletonRenderer:getPolygon",argc, 1);
