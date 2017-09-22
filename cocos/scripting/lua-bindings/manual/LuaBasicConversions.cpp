@@ -3336,6 +3336,24 @@ void std_vector_vec3_to_luaval(lua_State* L, const std::vector<cocos2d::Vec3>& i
     }
 }
 
+void std_vector_vec2_to_luaval(lua_State* L, const std::vector<cocos2d::Vec2>& inValue)
+{
+    if (nullptr == L)
+        return;
+    
+    lua_newtable(L);
+    
+    int index = 1;
+    for (const cocos2d::Vec2& value : inValue)
+    {
+        lua_pushnumber(L, (lua_Number)index);
+        vec2_to_luaval(L, value);
+        lua_rawset(L, -3);
+        ++index;
+    }
+    
+}
+
 void std_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& inValue)
 {
     if (nullptr == L)

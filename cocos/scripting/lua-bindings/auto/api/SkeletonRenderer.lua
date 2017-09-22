@@ -25,6 +25,13 @@
         
 --------------------------------
 -- 
+-- @function [parent=#SkeletonRenderer] getPolygon 
+-- @param self
+-- @param #string name
+-- @return array_table#array_table ret (return value: array_table)
+        
+--------------------------------
+-- 
 -- @function [parent=#SkeletonRenderer] initWithData 
 -- @param self
 -- @param #spSkeletonData skeletonData
