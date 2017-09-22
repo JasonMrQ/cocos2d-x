@@ -497,6 +497,57 @@ tolua_lerror:
     return 0;
 }
 
+int lua_cocos2dx_spine_SkeletonRenderer_getPolygon(lua_State* tolua_S)
+{
+    int argc = 0;
+    spine::SkeletonRenderer* cobj = nullptr;
+    bool ok  = true;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"sp.SkeletonRenderer",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    cobj = (spine::SkeletonRenderer*)tolua_tousertype(tolua_S,1,0);
+    
+#if COCOS2D_DEBUG >= 1
+    if (!cobj)
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_spine_SkeletonRenderer_getPolygon'", nullptr);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1)
+    {
+        std::string arg0;
+        
+        ok &= luaval_to_std_string(tolua_S, 2,&arg0, "sp.SkeletonRenderer:getPolygon");
+        if(!ok)
+        {
+            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_spine_SkeletonRenderer_getPolygon'", nullptr);
+            return 0;
+        }
+        std::vector<cocos2d::Vec2> ret = cobj->getPolygon(arg0);
+        std_vector_vec2_to_luaval(tolua_S , ret);
+        return 1;
+    }
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "sp.SkeletonRenderer:getPolygon",argc, 1);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_spine_SkeletonRenderer_getPolygon'.",&tolua_err);
+#endif
+    
+    return 0;
+}
+
 static void extendCCSkeletonAnimation(lua_State* L)
 {
     lua_pushstring(L, "sp.SkeletonAnimation");
@@ -507,6 +558,7 @@ static void extendCCSkeletonAnimation(lua_State* L)
         tolua_function(L, "registerSpineEventHandler", tolua_Cocos2d_CCSkeletonAnimation_registerSpineEventHandler00);
         tolua_function(L, "unregisterSpineEventHandler", tolua_Cocos2d_CCSkeletonAnimation_unregisterSpineEventHandler00);
         tolua_function(L, "setBlendFunc", tolua_spine_SkeletoneAnimation_setBlendFunc);
+        tolua_function(L, "getPolygon", lua_cocos2dx_spine_SkeletonRenderer_getPolygon);
         tolua_function(L, "addAnimation", lua_cocos2dx_spine_SkeletonAnimation_addAnimation);
         tolua_function(L, "setAnimation", lua_cocos2dx_spine_SkeletonAnimation_setAnimation);
     }
