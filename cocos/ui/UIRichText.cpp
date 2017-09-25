@@ -163,6 +163,18 @@ bool RichElementText::init(int tag, const Color3B &color, GLubyte opacity, const
     return false;
 }
 
+//add by Jason
+void RichElementText::registTouchEvent(const ccFuncBack& callback)
+{
+    _callback = callback;
+}
+
+Vec2 RichElementText::getContentSize()
+{
+    return Vec2(_width ,_height);
+}
+
+
 RichElementImage* RichElementImage::create(int tag, const Color3B &color, GLubyte opacity, const std::string& filePath, const std::string& url, Widget::TextureResType texType)
 {
     RichElementImage* element = new (std::nothrow) RichElementImage();

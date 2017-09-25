@@ -5,6 +5,12 @@
 -- @parent_module ccui
 
 --------------------------------
+-- 
+-- @function [parent=#RichElementText] registTouchEvent 
+-- @param self
+-- @return RichElementText#RichElementText self (return value: ccui.RichElementText)
+        
+--------------------------------
 -- brief Initialize a RichElementText with various arguments.<br>
 -- param tag A integer tag value.<br>
 -- param color A color in Color3B.<br>
@@ -38,6 +44,12 @@
 -- @param #int shadowBlurRadius
 -- @param #color3b_table glowColor
 -- @return bool#bool ret (return value: bool)
+        
+--------------------------------
+-- 
+-- @function [parent=#RichElementText] getContentSize 
+-- @param self
+-- @return vec2_table#vec2_table ret (return value: vec2_table)
         
 --------------------------------
 -- brief Create a RichElementText with various arguments.<br>

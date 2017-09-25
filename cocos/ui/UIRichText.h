@@ -39,6 +39,7 @@ class Label;
 
 namespace ui {
 
+typedef std::function<void(int result)> ccFuncBack;
 /**
  *@brief Rich text element base class.
  * It defines the basic common properties for all rich text element.
@@ -174,6 +175,10 @@ public:
                                    const Color3B& outlineColor = Color3B::WHITE, int outlineSize = -1,
                                    const Color3B& shadowColor = Color3B::BLACK, const cocos2d::Size& shadowOffset = Size(2.0, -2.0), int shadowBlurRadius = 0,
                                    const Color3B& glowColor = Color3B::WHITE);
+    
+    void registTouchEvent(const ccFuncBack& callback = nullptr);
+    Vec2 getContentSize();
+    
 protected:
     std::string _text;
     std::string _fontName;
@@ -187,6 +192,10 @@ protected:
     int _shadowBlurRadius;                  /*!< the shadow effect blur radius */
     Color3B _glowColor;                     /*!< attributes of glow tag */
     friend class RichText;
+    
+    ccFuncBack _callback;
+    uint32_t _width;    //
+    uint32_t _height;   //
 };
     
 /**
