@@ -573,6 +573,12 @@ protected:
                             const Color3B& outlineColor = Color3B::WHITE, int outlineSize = -1,
                             const Color3B& shadowColor = Color3B::BLACK, const cocos2d::Size& shadowOffset = Size(2.0, -2.0), int shadowBlurRadius = 0,
                             const Color3B& glowColor = Color3B::WHITE);
+    void handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B &color,
+                                      GLubyte opacity, uint32_t flags, const ccFuncBack& callback,
+                                      const Color3B& outlineColor, int outlineSize ,
+                                      const Color3B& shadowColor, const cocos2d::Size& shadowOffset, int shadowBlurRadius,
+                                      const Color3B& glowColor);
+    
     void handleImageRenderer(const std::string& filePath, const Color3B& color, GLubyte opacity, int width, int height, const std::string& url);
     void handleCustomRenderer(Node* renderer);
     void formarRenderers();
