@@ -5,12 +5,6 @@
 -- @parent_module ccui
 
 --------------------------------
--- 
--- @function [parent=#RichElementText] registTouchEvent 
--- @param self
--- @return RichElementText#RichElementText self (return value: ccui.RichElementText)
-        
---------------------------------
 -- brief Initialize a RichElementText with various arguments.<br>
 -- param tag A integer tag value.<br>
 -- param color A color in Color3B.<br>
