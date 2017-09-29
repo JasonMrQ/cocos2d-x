@@ -181,6 +181,26 @@ void Device::vibrate(float duration)
     JniHelper::callStaticVoidMethod(helperClassName, "vibrate", duration);
 }
 
+const char* Device::getUUid()
+{
+  return JniHelper::callStaticStringMethod(helperClassName,"getuuid").c_str();//getuuidJNI();
+}
+
+int Device::getNetworkType()
+{
+  return JniHelper::callStaticIntMethod(helperClassName,"getNetworkType");//getNetworkTypeJNI();
+}
+
+const char* Device::getCurrentDeviceModel()
+{
+  return JniHelper::callStaticStringMethod(helperClassName,"getCurrentDeviceModel").c_str();
+}
+
+const char* Device::getVersion()
+{
+  return JniHelper::callStaticStringMethod(helperClassName,"getSystemVersion").c_str();
+}
+
 NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
