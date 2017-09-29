@@ -4,6 +4,7 @@
 # Android ndk version must be ndk-r9b.
 
 
+
 import sys
 import os, os.path
 import shutil
@@ -110,9 +111,10 @@ def main():
     cocos_root = os.path.abspath(os.path.join(project_root, ''))
     cxx_generator_root = os.path.abspath(os.path.join(project_root, 'tools/bindings-generator'))
 
+    print 'project_root: %s' %project_root
     # save config to file
     config = ConfigParser.ConfigParser()
-    config.set('DEFAULT', 'real_root', '/Users/Leo/Documents/C_Code/Wolf/ThunderGirl2Ex/Client/ThunderGirl2Ex')
+    config.set('DEFAULT', 'real_root', '/Users/jason/Documents/git/fly_angel/ThunderGirl2Ex')
     config.set('DEFAULT', 'androidndkdir', ndk_root)
     config.set('DEFAULT', 'clangllvmdir', llvm_path)
     config.set('DEFAULT', 'cocosdir', cocos_root)
