@@ -43,6 +43,7 @@
 #import <CoreText/CoreText.h>
 // Vibrate
 #import <AudioToolbox/AudioToolbox.h>
+#import "sys/utsname.h"
 
 const float MAX_MEASURE_HEIGHT = 10000;
 

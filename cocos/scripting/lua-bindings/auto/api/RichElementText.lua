@@ -40,6 +40,12 @@
 -- @return bool#bool ret (return value: bool)
         
 --------------------------------
+-- 
+-- @function [parent=#RichElementText] getContentSize 
+-- @param self
+-- @return vec2_table#vec2_table ret (return value: vec2_table)
+        
+--------------------------------
 -- brief Create a RichElementText with various arguments.<br>
 -- param tag A integer tag value.<br>
 -- param color A color in Color3B.<br>

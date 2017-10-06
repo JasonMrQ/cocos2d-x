@@ -69,7 +69,24 @@ public:
         Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, _parent);
         _touchListener->retain();
     }
-
+    
+    static ListenerComponent* create(Label* parent, const ccFuncBack& callback)
+    {
+        auto component = new (std::nothrow) ListenerComponent(parent, callback);
+        component->autorelease();
+        return component;
+    }
+    
+    explicit ListenerComponent(Label* parent, const ccFuncBack& callback)
+    : _parent(parent)
+    ,_callback(callback)
+    {
+        _touchListener = cocos2d::EventListenerTouchAllAtOnce::create();
+        _touchListener->onTouchesEnded = CC_CALLBACK_2(ListenerComponent::onTouchesEnded, this);
+        Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_touchListener, 1);
+        _touchListener->retain();
+    }
+    
     virtual ~ListenerComponent()
     {
         Director::getInstance()->getEventDispatcher()->removeEventListener(_touchListener);
@@ -83,8 +100,13 @@ public:
             // FIXME: Node::getBoundBox() doesn't return it in local coordinates... so create one manually.
             Rect localRect = Rect(Vec2::ZERO, _parent->getContentSize());
             if (localRect.containsPoint(_parent->convertTouchToNodeSpace(touch))) {
-                if (_handleOpenUrl) {
+                if(_handleOpenUrl && _url.length() > 0)
+                {
                     _handleOpenUrl(_url);
+                }
+                else if (_callback)
+                {
+                    _callback(1);
                 }
             }
         }
@@ -101,6 +123,7 @@ private:
     RichText::OpenUrlHandler _handleOpenUrl;
     EventDispatcher* _eventDispatcher;  // weak ref.
     EventListenerTouchAllAtOnce* _touchListener;    // strong ref.
+    ccFuncBack _callback;
 };
 const std::string ListenerComponent::COMPONENT_NAME("cocos2d_ui_UIRichText_ListenerComponent");
 
@@ -162,6 +185,18 @@ bool RichElementText::init(int tag, const Color3B &color, GLubyte opacity, const
     }
     return false;
 }
+
+//add by Jason
+void RichElementText::registTouchEvent(const ccFuncBack& callback)
+{
+    _callback = callback;
+}
+
+Vec2 RichElementText::getContentSize()
+{
+    return Vec2(_width ,_height);
+}
+
 
 RichElementImage* RichElementImage::create(int tag, const Color3B &color, GLubyte opacity, const std::string& filePath, const std::string& url, Widget::TextureResType texType)
 {
@@ -1382,7 +1417,11 @@ void RichText::formatText()
                         if (elmtText->_flags & RichElementText::BOLD_FLAG)
                             label->enableBold();
                         if (elmtText->_flags & RichElementText::UNDERLINE_FLAG)
+                        {
                             label->enableUnderline();
+                            label->setTextColor(Color4B(element->_color));
+                            label->addComponent(ListenerComponent::create(label, elmtText->_callback));
+                        }
                         if (elmtText->_flags & RichElementText::STRIKETHROUGH_FLAG)
                             label->enableStrikethrough();
                         if (elmtText->_flags & RichElementText::URL_FLAG)
@@ -1459,11 +1498,23 @@ void RichText::formatText()
                     case RichElement::Type::TEXT:
                     {
                         RichElementText* elmtText = static_cast<RichElementText*>(element);
-                        handleTextRenderer(elmtText->_text, elmtText->_fontName, elmtText->_fontSize, elmtText->_color,
-                                           elmtText->_opacity, elmtText->_flags, elmtText->_url,
-                                           elmtText->_outlineColor, elmtText->_outlineSize,
-                                           elmtText->_shadowColor, elmtText->_shadowOffset, elmtText->_shadowBlurRadius,
-                                           elmtText->_glowColor);
+                        
+                        if(elmtText->_callback)
+                        {
+                            handleTextRenderer(elmtText->_text, elmtText->_fontName, elmtText->_fontSize, elmtText->_color,
+                                               elmtText->_opacity, elmtText->_flags, elmtText->_callback,
+                                               elmtText->_outlineColor, elmtText->_outlineSize,
+                                               elmtText->_shadowColor, elmtText->_shadowOffset, elmtText->_shadowBlurRadius,
+                                               elmtText->_glowColor);
+                        }
+                        else
+                        {
+                            handleTextRenderer(elmtText->_text, elmtText->_fontName, elmtText->_fontSize, elmtText->_color,
+                                               elmtText->_opacity, elmtText->_flags, elmtText->_url,
+                                               elmtText->_outlineColor, elmtText->_outlineSize,
+                                               elmtText->_shadowColor, elmtText->_shadowOffset, elmtText->_shadowBlurRadius,
+                                               elmtText->_glowColor);
+                        }
                         break;
                     }
                     case RichElement::Type::IMAGE:
@@ -1713,7 +1764,125 @@ void RichText::handleTextRenderer(const std::string& text, const std::string& fo
         pushToContainer(textRenderer);
     }
 }
+
+void RichText::handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B &color,
+                                  GLubyte opacity, uint32_t flags, const ccFuncBack& callback,
+                                  const Color3B& outlineColor, int outlineSize ,
+                                  const Color3B& shadowColor, const cocos2d::Size& shadowOffset, int shadowBlurRadius,
+                                  const Color3B& glowColor)
+{
+    auto fileExist = FileUtils::getInstance()->isFileExist(fontName);
+    Label* textRenderer = nullptr;
+    if (fileExist)
+    {
+        textRenderer = Label::createWithTTF(text, fontName, fontSize);
+    }
+    else
+    {
+        textRenderer = Label::createWithSystemFont(text, fontName, fontSize);
+    }
+    if (flags & RichElementText::ITALICS_FLAG)
+        textRenderer->enableItalics();
+    if (flags & RichElementText::BOLD_FLAG)
+        textRenderer->enableBold();
+    if (flags & RichElementText::UNDERLINE_FLAG)
+    {
+        textRenderer->enableUnderline();
+        textRenderer->setTextColor(Color4B(color));
+        textRenderer->addComponent(ListenerComponent::create(textRenderer, callback));
+    }
+    if (flags & RichElementText::STRIKETHROUGH_FLAG)
+        textRenderer->enableStrikethrough();
+    if (flags & RichElementText::URL_FLAG)
+        textRenderer->addComponent(ListenerComponent::create(textRenderer,
+                                                             "",
+                                                             std::bind(&RichText::openUrl, this, std::placeholders::_1)));
+    if (flags & RichElementText::OUTLINE_FLAG) {
+        textRenderer->enableOutline(Color4B(outlineColor), outlineSize);
+    }
+    if (flags & RichElementText::SHADOW_FLAG) {
+        textRenderer->enableShadow(Color4B(shadowColor), shadowOffset, shadowBlurRadius);
+    }
+    if (flags & RichElementText::GLOW_FLAG) {
+        textRenderer->enableGlow(Color4B(glowColor));
+    }
     
+    float textRendererWidth = textRenderer->getContentSize().width;
+    _leftSpaceWidth -= textRendererWidth;
+    if (_leftSpaceWidth < 0.0f)
+    {
+        int leftLength = 0;
+        if (static_cast<RichText::WrapMode>(_defaults.at(KEY_WRAP_MODE).asInt()) == WRAP_PER_WORD)
+            leftLength = findSplitPositionForWord(textRenderer, text);
+        else
+            leftLength = findSplitPositionForChar(textRenderer, text);
+        
+        //The minimum cut length is 1, otherwise will cause the infinite loop.
+        //        if (0 == leftLength) leftLength = 1;
+        std::string leftWords = Helper::getSubStringOfUTF8String(text, 0, leftLength);
+        int rightStart = leftLength;
+        if (std::isspace(text[rightStart], std::locale()))
+            rightStart++;
+        std::string cutWords = Helper::getSubStringOfUTF8String(text, rightStart, text.length() - leftLength);
+        if (leftLength > 0)
+        {
+            Label* leftRenderer = nullptr;
+            if (fileExist)
+            {
+                leftRenderer = Label::createWithTTF(Helper::getSubStringOfUTF8String(leftWords, 0, leftLength), fontName, fontSize);
+            }
+            else
+            {
+                leftRenderer = Label::createWithSystemFont(Helper::getSubStringOfUTF8String(leftWords, 0, leftLength), fontName, fontSize);
+            }
+            if (leftRenderer)
+            {
+                leftRenderer->setColor(color);
+                leftRenderer->setOpacity(opacity);
+                pushToContainer(leftRenderer);
+                
+                if (flags & RichElementText::ITALICS_FLAG)
+                    leftRenderer->enableItalics();
+                if (flags & RichElementText::BOLD_FLAG)
+                    leftRenderer->enableBold();
+                if (flags & RichElementText::UNDERLINE_FLAG)
+                {
+                    leftRenderer->enableUnderline();
+                    leftRenderer->setTextColor(Color4B(color));
+                    leftRenderer->addComponent(ListenerComponent::create(leftRenderer, callback));
+                }
+                if (flags & RichElementText::STRIKETHROUGH_FLAG)
+                    leftRenderer->enableStrikethrough();
+                if (flags & RichElementText::URL_FLAG)
+                    leftRenderer->addComponent(ListenerComponent::create(leftRenderer,
+                                                                         "",
+                                                                         std::bind(&RichText::openUrl, this, std::placeholders::_1)));
+                if (flags & RichElementText::OUTLINE_FLAG) {
+                    leftRenderer->enableOutline(Color4B(outlineColor), outlineSize);
+                }
+                if (flags & RichElementText::SHADOW_FLAG) {
+                    leftRenderer->enableShadow(Color4B(shadowColor), shadowOffset, shadowBlurRadius);
+                }
+                if (flags & RichElementText::GLOW_FLAG) {
+                    leftRenderer->enableGlow(Color4B(glowColor));
+                }
+            }
+        }
+        
+        addNewLine();
+        handleTextRenderer(cutWords, fontName, fontSize, color, opacity, flags,callback,
+                           outlineColor, outlineSize,
+                           shadowColor, shadowOffset, shadowBlurRadius,
+                           glowColor);
+    }
+    else
+    {
+        textRenderer->setColor(color);
+        textRenderer->setOpacity(opacity);
+        pushToContainer(textRenderer);
+    }
+}
+
 void RichText::handleImageRenderer(const std::string& filePath, const Color3B &/*color*/, GLubyte /*opacity*/, int width, int height, const std::string& url)
 {
     Sprite* imageRenderer = Sprite::create(filePath);
