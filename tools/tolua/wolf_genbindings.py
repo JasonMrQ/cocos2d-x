@@ -114,7 +114,7 @@ def main():
     print 'project_root: %s' %project_root
     # save config to file
     config = ConfigParser.ConfigParser()
-    config.set('DEFAULT', 'real_root', '/Users/admin/Documents/work/GitWorkSpace/SmartNinja')
+    config.set('DEFAULT', 'real_root', '/Users/admin/Documents/work/GitWorkSpace/SmartNinja/SmartNinja')
     config.set('DEFAULT', 'androidndkdir', ndk_root)
     config.set('DEFAULT', 'clangllvmdir', llvm_path)
     config.set('DEFAULT', 'cocosdir', cocos_root)
