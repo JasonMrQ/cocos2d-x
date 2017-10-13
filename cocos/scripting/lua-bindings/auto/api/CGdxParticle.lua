@@ -26,4 +26,11 @@
 -- @param #vec2_table position
 -- @return CGdxParticle#CGdxParticle self (return value: CGdxParticle)
         
+--------------------------------
+-- 
+-- @function [parent=#CGdxParticle] setVisible 
+-- @param self
+-- @param #bool visible
+-- @return CGdxParticle#CGdxParticle self (return value: CGdxParticle)
+        
 return nil
