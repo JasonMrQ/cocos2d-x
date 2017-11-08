@@ -129,7 +129,7 @@ void TableView::reloadData()
         cell->reset();
         if (cell->getParent() == this->getContainer())
         {
-            this->getContainer()->removeChild(cell, true);
+            this->getContainer()->removeChild(cell, false);
         }
     }
 
@@ -428,7 +428,7 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
     
     if (cell->getParent() == this->getContainer())
     {
-        this->getContainer()->removeChild(cell, true);
+        this->getContainer()->removeChild(cell, false);
     }
 }
 
