@@ -6,6 +6,19 @@
 
 --------------------------------
 -- 
+-- @function [parent=#CGdxParticle] setMirrorEnable 
+-- @param self
+-- @param #bool isMirror
+-- @return CGdxParticle#CGdxParticle self (return value: CGdxParticle)
+        
+--------------------------------
+-- 
+-- @function [parent=#CGdxParticle] playAgain 
+-- @param self
+-- @return CGdxParticle#CGdxParticle self (return value: CGdxParticle)
+        
+--------------------------------
+-- 
 -- @function [parent=#CGdxParticle] create 
 -- @param self
 -- @param #string path
