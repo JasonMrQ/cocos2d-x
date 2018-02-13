@@ -596,9 +596,8 @@ void TableView::onTouchEnded(Touch *pTouch, Event *pEvent)
 
     if (_touchedCell){
 		Rect bb = this->getBoundingBox();
-		bb.origin = _parent->convertToWorldSpace(bb.origin);
-
-		if (bb.containsPoint(pTouch->getLocation()) && _tableViewDelegate != nullptr)
+        Vec2 nodePos = _parent->convertToNodeSpace(pTouch->getLocation());
+		if (bb.containsPoint(nodePos) && _tableViewDelegate != nullptr)
         {
             _tableViewDelegate->tableCellUnhighlight(this, _touchedCell);
             _tableViewDelegate->tableCellTouched(this, _touchedCell);
